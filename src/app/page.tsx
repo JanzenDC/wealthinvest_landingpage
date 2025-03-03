@@ -72,7 +72,7 @@ export default function Home() {
             zIndex: 1000,
           }}
         >
-          <span style={{ fontWeight: "bold" }}>My Next.js App</span>
+          <span style={{ fontWeight: "bold" }}>WealthInvest</span>
           {/* Desktop Menu */}
           <ul
             style={{
