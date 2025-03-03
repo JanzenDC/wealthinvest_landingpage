@@ -3,25 +3,38 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
+// Define a Project interface to type your project objects
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  image: {
+    src: string;
+    width: number;
+    height: number;
+  };
+}
+
 export default function Home() {
   const [showLogo, setShowLogo] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState(null);
+  // Type the state as Project | null
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   // Using relative paths for images
   const images = Array.from({ length: 10 }, (_, i) => ({
     src: `/${i + 1}.jpg`,
     width: 800,
-    height: 600
+    height: 600,
   }));
   
   // Project data with titles and descriptions
-  const projects = images.map((img, index) => ({
+  const projects: Project[] = images.map((img, index) => ({
     id: index + 1,
     title: `Project ${index + 1}`,
     description: `Description for project ${index + 1}. This is a placeholder text that you can replace with actual project details.`,
-    image: img
+    image: img,
   }));
 
   useEffect(() => {
@@ -60,7 +73,6 @@ export default function Home() {
           }}
         >
           <span style={{ fontWeight: "bold" }}>My Next.js App</span>
-
           {/* Desktop Menu */}
           <ul
             style={{
@@ -72,10 +84,26 @@ export default function Home() {
               alignItems: "center",
             }}
           >
-            <li className="nav-item"><a href="#" style={{ color: "white", textDecoration: "none" }}>Home</a></li>
-            <li className="nav-item"><a href="#projects" style={{ color: "white", textDecoration: "none" }}>Projects</a></li>
-            <li className="nav-item"><a href="#" style={{ color: "white", textDecoration: "none" }}>About Us</a></li>
-            <li className="nav-item"><a href="#footer" style={{ color: "white", textDecoration: "none" }}>Contact</a></li>
+            <li className="nav-item">
+              <a href="#" style={{ color: "white", textDecoration: "none" }}>
+                Home
+              </a>
+            </li>
+            <li className="nav-item">
+              <a href="#projects" style={{ color: "white", textDecoration: "none" }}>
+                Projects
+              </a>
+            </li>
+            <li className="nav-item">
+              <a href="#" style={{ color: "white", textDecoration: "none" }}>
+                About Us
+              </a>
+            </li>
+            <li className="nav-item">
+              <a href="#footer" style={{ color: "white", textDecoration: "none" }}>
+                Contact
+              </a>
+            </li>
             <li className="nav-item">
               <button
                 style={{
@@ -92,7 +120,6 @@ export default function Home() {
               </button>
             </li>
           </ul>
-
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
@@ -133,10 +160,18 @@ export default function Home() {
               zIndex: 999,
             }}
           >
-            <a href="#" style={{ color: "white", textDecoration: "none", padding: "10px" }}>Home</a>
-            <a href="#projects" style={{ color: "white", textDecoration: "none", padding: "10px" }}>Projects</a>
-            <a href="#" style={{ color: "white", textDecoration: "none", padding: "10px" }}>About Us</a>
-            <a href="#footer" style={{ color: "white", textDecoration: "none", padding: "10px" }}>Contact</a>
+            <a href="#" style={{ color: "white", textDecoration: "none", padding: "10px" }}>
+              Home
+            </a>
+            <a href="#projects" style={{ color: "white", textDecoration: "none", padding: "10px" }}>
+              Projects
+            </a>
+            <a href="#" style={{ color: "white", textDecoration: "none", padding: "10px" }}>
+              About Us
+            </a>
+            <a href="#footer" style={{ color: "white", textDecoration: "none", padding: "10px" }}>
+              Contact
+            </a>
             <button
               style={{
                 backgroundColor: "#ffcc00",
@@ -305,7 +340,13 @@ export default function Home() {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 1, delay: 0.5 }}
-                  style={{ fontSize: "1.5rem", background: "#ffcc00", color: "#111827", padding: "10px 20px", borderRadius: "5px" }}
+                  style={{
+                    fontSize: "1.5rem",
+                    background: "#ffcc00",
+                    color: "#111827",
+                    padding: "10px 20px",
+                    borderRadius: "5px",
+                  }}
                 >
                   Inquire Now
                 </motion.p>
@@ -380,9 +421,9 @@ export default function Home() {
                         src={project.image.src}
                         alt={project.title}
                         fill
-                        style={{ 
+                        style={{
                           objectFit: "cover",
-                          transition: "transform 0.5s ease"
+                          transition: "transform 0.5s ease",
                         }}
                         sizes="(max-width: 768px) 100vw, 33vw"
                         className="project-image"
@@ -487,8 +528,12 @@ export default function Home() {
                       />
                     </div>
                     <div style={{ padding: "25px" }}>
-                      <h2 style={{ marginBottom: "15px", color: "#111827" }}>{selectedProject.title}</h2>
-                      <p style={{ color: "#6b7280", lineHeight: "1.6" }}>{selectedProject.description}</p>
+                      <h2 style={{ marginBottom: "15px", color: "#111827" }}>
+                        {selectedProject.title}
+                      </h2>
+                      <p style={{ color: "#6b7280", lineHeight: "1.6" }}>
+                        {selectedProject.description}
+                      </p>
                       <div
                         style={{
                           marginTop: "20px",
@@ -594,35 +639,65 @@ export default function Home() {
                   <h3 style={{ marginBottom: "20px", fontSize: "1.2rem" }}>Quick Links</h3>
                   <ul style={{ listStyle: "none", padding: 0 }}>
                     <li style={{ marginBottom: "10px" }}>
-                      <a href="#" style={{ color: "#9ca3af", textDecoration: "none", transition: "color 0.3s" }}>Home</a>
+                      <a href="#" style={{ color: "#9ca3af", textDecoration: "none", transition: "color 0.3s" }}>
+                        Home
+                      </a>
                     </li>
                     <li style={{ marginBottom: "10px" }}>
-                      <a href="#projects" style={{ color: "#9ca3af", textDecoration: "none", transition: "color 0.3s" }}>Projects</a>
+                      <a href="#projects" style={{ color: "#9ca3af", textDecoration: "none", transition: "color 0.3s" }}>
+                        Projects
+                      </a>
                     </li>
                     <li style={{ marginBottom: "10px" }}>
-                      <a href="#" style={{ color: "#9ca3af", textDecoration: "none", transition: "color 0.3s" }}>About Us</a>
+                      <a href="#" style={{ color: "#9ca3af", textDecoration: "none", transition: "color 0.3s" }}>
+                        About Us
+                      </a>
                     </li>
                     <li style={{ marginBottom: "10px" }}>
-                      <a href="#" style={{ color: "#9ca3af", textDecoration: "none", transition: "color 0.3s" }}>Services</a>
+                      <a href="#" style={{ color: "#9ca3af", textDecoration: "none", transition: "color 0.3s" }}>
+                        Services
+                      </a>
                     </li>
                     <li style={{ marginBottom: "10px" }}>
-                      <a href="#" style={{ color: "#9ca3af", textDecoration: "none", transition: "color 0.3s" }}>Contact</a>
+                      <a href="#" style={{ color: "#9ca3af", textDecoration: "none", transition: "color 0.3s" }}>
+                        Contact
+                      </a>
                     </li>
                   </ul>
                 </div>
 
                 <div>
                   <h3 style={{ marginBottom: "20px", fontSize: "1.2rem" }}>Contact Us</h3>
-                  <p style={{ marginBottom: "15px", display: "flex", alignItems: "flex-start", color: "#9ca3af" }}>
+                  <p
+                    style={{
+                      marginBottom: "15px",
+                      display: "flex",
+                      alignItems: "flex-start",
+                      color: "#9ca3af",
+                    }}
+                  >
                     <span style={{ marginRight: "10px", marginTop: "5px" }}>📍</span>
-                    <span>Estrada street, Tetuan zamboanga city
-                    </span>
+                    <span>Estrada street, Tetuan zamboanga city</span>
                   </p>
-                  <p style={{ marginBottom: "15px", display: "flex", alignItems: "center", color: "#9ca3af" }}>
+                  <p
+                    style={{
+                      marginBottom: "15px",
+                      display: "flex",
+                      alignItems: "center",
+                      color: "#9ca3af",
+                    }}
+                  >
                     <span style={{ marginRight: "10px" }}>📞</span>
                     <span>0945 369 1428</span>
                   </p>
-                  <p style={{ marginBottom: "15px", display: "flex", alignItems: "center", color: "#9ca3af" }}>
+                  <p
+                    style={{
+                      marginBottom: "15px",
+                      display: "flex",
+                      alignItems: "center",
+                      color: "#9ca3af",
+                    }}
+                  >
                     <span style={{ marginRight: "10px" }}>✉️</span>
                     <span>wmrealestateinvestment@gmail.com</span>
                   </p>
@@ -636,7 +711,6 @@ export default function Home() {
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
-                  allowFullScreen=""
                   loading="lazy"
                   title="Google Maps Location"
                 ></iframe>
